@@ -14,6 +14,7 @@ public class MainManager : MonoBehaviour
     public Text BestScoreText;
     public GameObject GameOverText;
     public GameObject SuccessText;
+    public GameObject GameOverBackground;
 
     private bool m_Started = false;
     private int m_Points;
@@ -112,6 +113,8 @@ public class MainManager : MonoBehaviour
         {
             GameOverText.SetActive(true);
         }
+
+        GameOverBackground.SetActive(true);
     }
 
     public void SetBestScore(int score, string name)
@@ -138,7 +141,7 @@ public class MainManager : MonoBehaviour
 
         if (name != "" && score > 0)
         {
-            BestScoreText.text = $"Best Score: {name} - {score}";
+            BestScoreText.text = $"Best Score: {name} · {score}";
         } 
     }
 
