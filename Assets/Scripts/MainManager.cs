@@ -80,7 +80,7 @@ public class MainManager : MonoBehaviour
     void AddPoint(int point)
     {
         m_Points += point;
-        ScoreText.text = $"Score : {m_Points}";
+        ScoreText.text = $"Your Score : {m_Points}";
     }
 
     public void GameOver()
@@ -120,7 +120,7 @@ public class MainManager : MonoBehaviour
 
         if (name != "" && score > 0)
         {
-            BestScoreText.text = $"Best score: {name} - {score}";
+            BestScoreText.text = $"Best Score: {name} - {score}";
         } 
     }
 
