@@ -70,6 +70,11 @@ public class MainManager : MonoBehaviour
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ReturnToMenu();
+        }
     }
 
     void AddPoint(int point)
@@ -96,21 +101,31 @@ public class MainManager : MonoBehaviour
         if (Storage.Instance)
         {
             Storage.Instance.bestPlayerName = name;
-            Storage.Instance.bestPlayerScore = score; 
+            Storage.Instance.bestPlayerScore = score;
+
+            Storage.Instance.SaveHighScore();
         }
     }
 
     public void RenderBestScore()
     {
         string name = "";
-        string score = "";
+        int score = 0;
 
         if (Storage.Instance)
         {
             name = Storage.Instance.bestPlayerName;
-            score = Storage.Instance.bestPlayerScore.ToString();
+            score = Storage.Instance.bestPlayerScore;
         }
 
-        BestScoreText.text = $"Best score: {name} - {score}";
+        if (name != "" && score > 0)
+        {
+            BestScoreText.text = $"Best score: {name} - {score}";
+        } 
+    }
+
+    public void ReturnToMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 }

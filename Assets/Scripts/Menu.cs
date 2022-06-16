@@ -46,7 +46,7 @@ public class Menu : MonoBehaviour
     {
         if (Storage.Instance && Storage.Instance.bestPlayerName != "" && Storage.Instance.bestPlayerScore > 0)
         {
-            bestScoreText.text = $"Best player: {Storage.Instance.bestPlayerName} - {Storage.Instance.bestPlayerScore.ToString()}";
+            bestScoreText.text = $"Best score: {Storage.Instance.bestPlayerName} - {Storage.Instance.bestPlayerScore}";
         }
     }
 }

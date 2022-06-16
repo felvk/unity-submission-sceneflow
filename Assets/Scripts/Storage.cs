@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class Storage : MonoBehaviour
 {
@@ -28,21 +29,43 @@ public class Storage : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    [System.Serializable]
-    class HighScore
-    {
-        public string playerName;
-        public string playerScore;
-    }
-
     public void LoadHighScore()
     {
-        bestPlayerName = "";
-        bestPlayerScore = 0;
+        string filePath = GetFilePath();
+
+        if (File.Exists(filePath))
+        {
+            string json = File.ReadAllText(filePath);
+
+            HighScore data = JsonUtility.FromJson<HighScore>(json);
+
+            bestPlayerName = data.playerName;
+            bestPlayerScore = data.playerScore;
+        }
     }
 
     public void SaveHighScore()
     {
+        HighScore highScore = new HighScore();
+        highScore.playerName = bestPlayerName;
+        highScore.playerScore = bestPlayerScore;
 
+        string json = JsonUtility.ToJson(highScore);
+
+        string filePath = GetFilePath();
+
+        File.WriteAllText(filePath, json);
+    }
+
+    public string GetFilePath()
+    {
+        return Application.persistentDataPath + "/highscore.json";
+    }
+
+    [System.Serializable]
+    class HighScore
+    {
+        public string playerName;
+        public int playerScore;
     }
 }
