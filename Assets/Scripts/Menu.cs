@@ -13,26 +13,40 @@ public class Menu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        RenderBestScore();
     }
 
     public void StartGame()
     {
+        setPlayer();
+
         SceneManager.LoadScene(1);
     }
 
     public void QuitGame()
     {
 #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
+        UnityEditor.EditorApplication.ExitPlaymode();
 #else
         Application.Quit();
 #endif
+    }
+
+    public void setPlayer()
+    {
+        string playerName = playerNameInput.text != "" ? playerNameInput.text : "Nobody";
+
+        if (Storage.Instance)
+        {
+            Storage.Instance.playerName = playerName;
+        }
+    }
+
+    public void RenderBestScore()
+    {
+        if (Storage.Instance && Storage.Instance.bestPlayerName != "" && Storage.Instance.bestPlayerScore > 0)
+        {
+            bestScoreText.text = $"Best player: {Storage.Instance.bestPlayerName} - {Storage.Instance.bestPlayerScore.ToString()}";
+        }
     }
 }

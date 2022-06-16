@@ -19,10 +19,19 @@ public class MainManager : MonoBehaviour
     
     private bool m_GameOver = false;
 
+    private string m_PlayerName = "";
+
     
     // Start is called before the first frame update
     void Start()
     {
+        if (Storage.Instance)
+        {
+            m_PlayerName = Storage.Instance.playerName;
+        }
+
+        RenderBestScore();
+
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -71,7 +80,37 @@ public class MainManager : MonoBehaviour
 
     public void GameOver()
     {
+        if (Storage.Instance && m_Points > Storage.Instance.bestPlayerScore)
+        {
+            SetBestScore(m_Points, m_PlayerName);
+        }
+
+        RenderBestScore();
+
         m_GameOver = true;
         GameOverText.SetActive(true);
+    }
+
+    public void SetBestScore(int score, string name)
+    {
+        if (Storage.Instance)
+        {
+            Storage.Instance.bestPlayerName = name;
+            Storage.Instance.bestPlayerScore = score; 
+        }
+    }
+
+    public void RenderBestScore()
+    {
+        string name = "";
+        string score = "";
+
+        if (Storage.Instance)
+        {
+            name = Storage.Instance.bestPlayerName;
+            score = Storage.Instance.bestPlayerScore.ToString();
+        }
+
+        BestScoreText.text = $"Best score: {name} - {score}";
     }
 }
