@@ -13,13 +13,16 @@ public class MainManager : MonoBehaviour
     public Text ScoreText;
     public Text BestScoreText;
     public GameObject GameOverText;
-    
+    public GameObject SuccessText;
+
     private bool m_Started = false;
     private int m_Points;
     
     private bool m_GameOver = false;
 
     private string m_PlayerName = "";
+
+    private int m_bricksCount = 0;
 
     
     // Start is called before the first frame update
@@ -44,6 +47,7 @@ public class MainManager : MonoBehaviour
                 var brick = Instantiate(BrickPrefab, position, Quaternion.identity);
                 brick.PointValue = pointCountArray[i];
                 brick.onDestroyed.AddListener(AddPoint);
+                m_bricksCount++;
             }
         }
     }
@@ -81,6 +85,12 @@ public class MainManager : MonoBehaviour
     {
         m_Points += point;
         ScoreText.text = $"Your Score : {m_Points}";
+        m_bricksCount--;
+
+        if (m_bricksCount <= 0)
+        {
+            GameOver();
+        }
     }
 
     public void GameOver()
@@ -93,7 +103,15 @@ public class MainManager : MonoBehaviour
         RenderBestScore();
 
         m_GameOver = true;
-        GameOverText.SetActive(true);
+
+        if (m_bricksCount <= 0)
+        {
+            SuccessText.SetActive(true);
+        }
+        else
+        {
+            GameOverText.SetActive(true);
+        }
     }
 
     public void SetBestScore(int score, string name)
